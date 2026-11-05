@@ -16,11 +16,14 @@ function sanitizedReport(evidence,platform,secureContext){
   if(run?.nodeProviderAssignment==='not-exposed')row.nodeProviderAssignment='not-exposed';
   if(run?.cpuFallbackActual==='not-exposed')row.cpuFallbackActual='not-exposed';
   if(Array.isArray(run?.requestedExecutionProviders))row.requestedExecutionProviders=run.requestedExecutionProviders.slice(0,2).filter(x=>['webgpu','wasm'].includes(x));
-  if(['unknown','gpu_unavailable','cpu_assignment_rejected','unsupported_operator','artifact_unavailable','artifact_invalid','memory_allocation','shader_compilation','numeric_mismatch','session_release_failed'].includes(run?.errorCategory))row.errorCategory=run.errorCategory;
+  if(['unknown','gpu_unavailable','cpu_assignment_rejected','unsupported_operator','artifact_unavailable','artifact_invalid','memory_allocation','shader_compilation','numeric_mismatch','session_release_failed','download_cancelled','download_stalled','download_http','download_incomplete','download_oversize','download_invalid_size','download_network'].includes(run?.errorCategory))row.errorCategory=run.errorCategory;
   if(['prepare','gpu-check','fixtures','model-download','session-create','inference','validation','release'].includes(run?.failurePhase))row.failurePhase=run.failurePhase;
   if(['Softplus','Mish','Shape','Reshape','Cast','Range','Resize','Conv','InstanceNormalization','MatMul','Gather','LayerNormalization','Add','Mul','Transpose','Unsqueeze','Concat','ReduceMax'].includes(run?.failureOperator))row.failureOperator=run.failureOperator;
   copyBooleans(run,row,['passed','automaticCpuFallback','cpuNodeFallbackDisabled','sessionCreated','sessionReleased','referencePrefixZero','webGPUAdapter','webGPUApi','secureContext','noAudioDevices','noServerInference','firstRunMayIncludeCompilation']);
   copyNumbers(run,row,['threads','modelBytes','inputSamples','outputSamples','modelFetchMs','sessionCreateMs','sessionLoadMs','operatorPairMs','inferenceSumMs','tenStepComputeAndScheduleMs','maxAbsoluteError','rmsError','benchmarkVersion','firstRunMs','warmMedianMs','warmRunCount']);
+  copyNumbers(run,row,['modelExpectedBytes','modelBytesReceived','modelHttpStatus','modelResponseContentLength','modelDownloadElapsedMs']);
+  copyBooleans(run,row,['modelDownloadComplete','downloadProgressSupported','downloadCancelled']);
+  if(['AbortError','TypeError','RangeError','NetworkError','Error'].includes(run?.downloadExceptionName))row.downloadExceptionName=run.downloadExceptionName;
   if(Array.isArray(run?.warmRunMs))row.warmRunMs=run.warmRunMs.slice(0,5).map(exportNumber).filter(x=>x!==undefined);
   if(Array.isArray(run?.warmChecks))row.warmChecks=run.warmChecks.slice(0,5).map(check=>{const item=exportMetrics(check);copyBooleans(check,item,['passed']);return item});
   if(run?.requestedProvider!==undefined)row.requestedProvider=exportProvider(run.requestedProvider);

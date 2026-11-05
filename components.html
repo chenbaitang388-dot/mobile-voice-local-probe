@@ -1,15 +1,17 @@
 <!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
 <title>白棠 · 手机模型组件测试</title><link rel="stylesheet" href="style.css"><link rel="icon" href="icon.svg" type="image/svg+xml"></head><body>
-<main><p class="eyebrow">手机本地计算 · 真实模型组件 · 兼容测试 v4</p><h1>接下来，测试真实模型组件</h1>
+<main><p class="eyebrow">手机本地计算 · 真实模型组件 · 下载诊断 v5</p><h1>接下来，测试真实模型组件</h1>
 <p>这次使用真实模型和程序生成的测试数值，<strong>不使用你的录音或白棠私人音色</strong>。没有麦克风、播放、上传或电脑代算。</p>
 <p>先测约 9 MB 的长度调节器，再测约 74 MB 的扩散模型单步。只有点击对应按钮才下载该模型；不会自动保存进首页离线缓存。</p>
 <p><label for="provider">计算方式：</label><select id="provider"><option value="gpu-compatible" selected>GPU 兼容模式 · 允许手机 CPU 参与</option><option value="gpu-strict">严格 GPU · 禁止 CPU 节点</option><option value="wasm">纯 CPU · WASM 单线程</option></select></p>
 <p class="note">默认兼容模式请求 GPU，并允许手机 CPU 处理不兼容节点；不能保证 CPU 只处理辅助运算，也不能把此模式称为全 GPU。两者都在手机内计算。若没有 GPU，本页会停止，请你主动选择纯 CPU。</p>
 <div class="actions"><button id="lr">1. 下载并测试长度调节器（约 9 MB）</button><button id="dit" disabled>2. 下载并测试扩散模型单步（约 74 MB）</button></div>
+<div class="actions"><button id="cancel-download" disabled>取消当前下载</button></div>
+<p class="note">下载显示已收到的字节和进度；请保持 Safari 页面在前台。连续 120 秒没有收到数据会停止，不会自动重试。第二项下载失败或取消后，当前页面已通过的第一项仍有效，可直接手动重试第二项。</p>
 <p class="note">需先在同一模式下通过第一项，才会启用第二项。每项只尝试创建一次模型会话，不会在创建失败后偷偷重试纯 CPU。记录首次计算，再复用会话计算三次；每次都检查数值误差。</p>
 <section><h2>执行状态</h2><pre id="state">等待点击。默认兼容模式：请求 GPU，允许手机 CPU 节点。</pre></section><section aria-live="polite"><h2>结果</h2><pre id="result">尚未运行。两项都通过仍不代表完整变声或实时性能通过。</pre></section>
 <div class="actions"><button id="copy-report">复制检查结果</button><button id="show-report">显示可复制文本</button></div><p id="copy-status" aria-live="polite"></p><textarea id="report-text" readonly hidden aria-label="测试结果文本"></textarea>
 <p class="note">模型下载、创建会话和首次／预热计算分开计时。provider 表示请求的后端，逐节点分配当前不可读取（not-exposed），不能据此证明哪些运算用了 GPU。测试仅为合成参考 16 帧、CFG 0.5 的组件检查，不是完整白棠音色链。phoneVerified:false 表示网页无法认证设备身份，不表示测试失败。</p>
 <p><a href="index.html">← 返回小模型检查</a> · <a href="COMPONENT_NOTICES.txt">组件开源来源与许可证</a></p></main>
-<script src="vendor/ort.webgpu.min.js"></script><script src="session-factory.js"></script><script src="components.js?v=compat4"></script><script src="component-report-export.js?v=compat4"></script></body></html>
+<script src="vendor/ort.webgpu.min.js"></script><script src="session-factory.js"></script><script src="components.js?v=download5"></script><script src="component-report-export.js?v=download5"></script></body></html>
