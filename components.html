@@ -1,0 +1,14 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>白棠 · 手机模型组件测试</title><link rel="stylesheet" href="style.css"><link rel="icon" href="icon.svg" type="image/svg+xml"></head><body>
+<main><p class="eyebrow">手机本地计算 · 真实模型组件</p><h1>接下来，测试真实模型组件</h1>
+<p>这次使用真实模型和程序生成的测试数值，<strong>不使用你的录音或白棠私人音色</strong>。没有麦克风、播放、上传或电脑代算。</p>
+<p>先测约 9 MB 的长度调节器，再测约 74 MB 的扩散模型单步。只有点击对应按钮才下载该模型；不会自动保存进首页离线缓存。</p>
+<p><label for="provider">计算方式：</label><select id="provider"><option value="webgpu" selected>GPU · 不允许 CPU 回退</option><option value="wasm">WASM · CPU 单线程</option></select></p>
+<div class="actions"><button id="lr">1. 下载并测试长度调节器（约 9 MB）</button><button id="dit" disabled>2. 下载并测试扩散模型单步（约 74 MB）</button></div>
+<p class="note">需先在同一种计算方式下通过第一项，才会启用第二项。每项创建一次模型会话：记录首次计算，再复用会话计算三次；每次都检查数值误差。</p>
+<section><h2>执行状态</h2><pre id="state">等待点击。默认 GPU；失败不会偷偷改用 CPU。</pre></section><section aria-live="polite"><h2>结果</h2><pre id="result">尚未运行。两项都通过仍不代表完整变声或实时性能通过。</pre></section>
+<div class="actions"><button id="copy-report">复制检查结果</button><button id="show-report">显示可复制文本</button></div><p id="copy-status" aria-live="polite"></p><textarea id="report-text" readonly hidden aria-label="测试结果文本"></textarea>
+<p class="note">模型下载、创建会话和首次／预热计算分开计时。测试仅为合成参考 16 帧、CFG 0.5 的组件检查，不是完整白棠音色链。phoneVerified:false 表示网页无法认证设备身份，不表示测试失败。</p>
+<p><a href="index.html">← 返回小模型检查</a> · <a href="COMPONENT_NOTICES.txt">组件开源来源与许可证</a></p></main>
+<script src="vendor/ort.webgpu.min.js"></script><script src="session-factory.js"></script><script src="components.js"></script><script src="component-report-export.js"></script></body></html>

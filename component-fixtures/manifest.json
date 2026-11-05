@@ -1,0 +1,138 @@
+{
+  "scope": "Synthetic inputs only; no user audio, actual Baitang prompt or speaker embedding",
+  "components": {
+    "lr": {
+      "model": "./component-models/lr.onnx",
+      "modelBytes": 9274520,
+      "input": {
+        "features": {
+          "path": "lr-features.f32",
+          "shape": [
+            1,
+            38,
+            1024
+          ],
+          "dtype": "float32",
+          "bytes": 155648,
+          "sha256": "d22513c049666c71a37b9f1b537c945c0313c4ff1e459f611cba4ef4313facd9"
+        }
+      },
+      "output": "condition",
+      "expected": {
+        "path": "lr-torchscript.f32",
+        "shape": [
+          1,
+          67,
+          384
+        ],
+        "dtype": "float32",
+        "bytes": 102912,
+        "sha256": "9f0f5ac6d922d450ad3b3bff30b028b13d733f7b7b700bade0a50d68baec41ff"
+      },
+      "nativeOrt": {
+        "path": "lr-ort.f32",
+        "shape": [
+          1,
+          67,
+          384
+        ],
+        "dtype": "float32",
+        "bytes": 102912,
+        "sha256": "1af1815f54f5c6d8853deeb4023f1eb2b86daf5740dbebeb2677fbc4ee7a6202"
+      },
+      "scope": "seed17; fixed38->67; real trained length regulator; saved TorchScript previously exact against original",
+      "atol": 0.0001,
+      "rmsTolerance": 1e-05,
+      "nativeOrtVsExpectedMaxAbs": 1.3783574104309082e-07
+    },
+    "dit": {
+      "model": "./component-models/dit.onnx",
+      "modelBytes": 73575717,
+      "input": {
+        "state": {
+          "path": "dit-state.f32",
+          "shape": [
+            1,
+            80,
+            83
+          ],
+          "dtype": "float32",
+          "bytes": 26560,
+          "sha256": "0eed0eba5804c26baab2ce1ce8562a07a5fa5d71c59f76fd2da754812426b2cd"
+        },
+        "reference_mel": {
+          "path": "dit-reference_mel.f32",
+          "shape": [
+            1,
+            80,
+            16
+          ],
+          "dtype": "float32",
+          "bytes": 5120,
+          "sha256": "03fd0135ca631121efe048543df756a26e667b4e2cff5de236bb34e33bf72a12"
+        },
+        "style": {
+          "path": "dit-style.f32",
+          "shape": [
+            1,
+            192
+          ],
+          "dtype": "float32",
+          "bytes": 768,
+          "sha256": "c5ddd2f43675283dafe910e9761c78da8ff8010f715d19a80fe51fbbf7c8f3ab"
+        },
+        "condition": {
+          "path": "dit-condition.f32",
+          "shape": [
+            1,
+            83,
+            384
+          ],
+          "dtype": "float32",
+          "bytes": 127488,
+          "sha256": "ada18b668b6ca90db983187a6c73d1997fb9105331f4dc75ceb41af0b2ea9359"
+        },
+        "time": {
+          "path": "dit-time.f32",
+          "shape": [
+            1
+          ],
+          "dtype": "float32",
+          "bytes": 4,
+          "sha256": "e0fb2d87992a9fc79e7729163ad2aea5efbf14806711292c8c46e873bac1a253"
+        }
+      },
+      "output": "guided_velocity",
+      "expected": {
+        "path": "dit-source.f32",
+        "shape": [
+          1,
+          80,
+          83
+        ],
+        "dtype": "float32",
+        "bytes": 26560,
+        "sha256": "674888339b00a1242a804d117c51760445ecb44219ab88b233aeea481bdb32d7"
+      },
+      "nativeOrt": {
+        "path": "dit-ort.f32",
+        "shape": [
+          1,
+          80,
+          83
+        ],
+        "dtype": "float32",
+        "bytes": 26560,
+        "sha256": "9c2471bcbce8723062f453d1a3497b5d29185044d887a6c98688bcbe79438c39"
+      },
+      "scope": "saved synthetic16ref+67target, fixedCFG0.5, one estimator call; not productionCFG0.7",
+      "atol": 0.002,
+      "rmsTolerance": 0.0002
+    }
+  },
+  "gpuInitialized": false,
+  "pythonVersions": {
+    "torch": "2.11.0+cu128",
+    "ort": "1.22.0"
+  }
+}

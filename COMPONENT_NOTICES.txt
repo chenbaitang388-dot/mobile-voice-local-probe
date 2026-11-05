@@ -1,0 +1,47 @@
+GENERIC SEED-VC COMPONENT COMPATIBILITY TEST - GPL-3.0
+Modified conversion package, 2026-11-05. No warranty.
+
+The two optional component files are generic pretrained Seed-VC derivatives,
+not a person's custom voice and not a complete voice converter:
+  component-models/lr.onnx  - fixed 38-frame input / 67-frame output regulator
+  component-models/dit.onnx - one DiT estimator call, synthetic 16-frame
+                             reference / 67 target frames, CFG 0.5
+
+MODEL LICENSE (separate from merely licensing the source repository)
+The official Plachta/Seed-VC Hugging Face model card explicitly states
+license: gpl-3.0. The retained card is source/seed_components/model-card.md.
+https://huggingface.co/Plachta/Seed-VC
+The checkpoint used for both graphs is DiT_uvit_tat_xlsr_ema.pth:
+https://huggingface.co/Plachta/Seed-VC/resolve/257283f9f41585055e8f858fba4fd044e5caed6e/DiT_uvit_tat_xlsr_ema.pth
+SHA256 c853ea578b409f625f961bcb15d5cff1f8ef9a75f3209ec21d9b7c73ab422e88
+The official file page independently displays the same SHA256.
+
+CORRESPONDING SOURCE / MODIFICATIONS
+The complete necessary editable conversion recipe, the actual six upstream
+module dependencies, configuration, source hashes, and modification notices
+are provided in source/seed_components/. See its README.txt.
+The upstream code is pinned at:
+https://github.com/Plachtaa/seed-vc/tree/51383efd921027683c89e5348211d93ff12ac2a8
+The original editable PyTorch checkpoint is available at the fixed, free
+download URL above. It is source input for modifying/rebuilding the exported
+graphs and is not automatically downloaded by the phone test.
+Source is offered without an additional charge. The maintainer distributing
+these converted graphs remains responsible for keeping the corresponding
+source available; linking a third-party source does not remove that duty.
+
+This conversion work and the supplied source are distributed under GPLv3.
+You may copy, modify and redistribute them under that license. The full text
+is provided in source/seed_components/GPL-3.0.txt and SEED-LICENSE.
+Original third-party notices inside the unchanged upstream files are retained.
+The browser runtime and its separate MIT/third-party terms remain documented
+in THIRD_PARTY_NOTICES.txt. No restrictions on redistribution are added here.
+
+PRIVACY / SCOPE
+No custom voice recording, fine-tune, speaker embedding or actual 516-frame
+private reference is included. Test reference/style/features are synthetic.
+The graphs were inspected recursively for doc_string, metadata_props and all
+protobuf text fields; neither original graph contained private path strings.
+Weights and computation were not changed by that inspection. All browser
+input and inference remain local; only public static files are downloaded.
+Passing these fixed components does not establish full iPhone voice conversion,
+real-time operation, voice quality or continuous streaming compatibility.

@@ -1,0 +1,60 @@
+{
+  "sourceCommit": "51383efd921027683c89e5348211d93ff12ac2a8",
+  "includedSourceFiles": [
+    {
+      "path": "modules/commons.py",
+      "bytes": 15134,
+      "gitBlob": "4af3fecc7fda93d647f49723e1089a791ec52ed2",
+      "sha256": "09d1cf334fc7cc9fa62773a184bc2125093241c25a8c1fcb45cbb90f57d8cf2c"
+    },
+    {
+      "path": "modules/diffusion_transformer.py",
+      "bytes": 22431,
+      "gitBlob": "0de2aa00b7378423a25e4fcbff6ad0561ee6092c",
+      "sha256": "9c4cefca4240aed9a4dd38919b2b925f5df1f3e21afadb77ca5b3c00b5dcc90f"
+    },
+    {
+      "path": "modules/encodec.py",
+      "bytes": 12030,
+      "gitBlob": "9feeadd935dabd6642af6b1844494a51967292c3",
+      "sha256": "83dc7d439fa150e8cc8ca1bb071b98ca91109b7fbb08a322ad34d8f4c3efd3dc"
+    },
+    {
+      "path": "modules/flow_matching.py",
+      "bytes": 6585,
+      "gitBlob": "9b250a24d4eed7867ec6b4b08afa70bd1b4a7eb3",
+      "sha256": "a41641065ed7905117778d3093e1ab2915885e10e326cb5d328bfb965712c5c5"
+    },
+    {
+      "path": "modules/length_regulator.py",
+      "bytes": 6071,
+      "gitBlob": "a896c6ced97e409ba657f60af59a2f82e1688e65",
+      "sha256": "7b27440e9b25ea6b77b88910cf45e358e8e76b264acc9108e68ccebbd1bb5dfb"
+    },
+    {
+      "path": "modules/wavenet.py",
+      "bytes": 6457,
+      "gitBlob": "2d2c3b862593e2c0f78b2f8cb2d38c4cbbe573eb",
+      "sha256": "465b201d20c95b93ccaa8f9966042a9f071d5a45362732f4326d13278e80c2ed"
+    }
+  ],
+  "checkpoint": {
+    "repo": "Plachta/Seed-VC",
+    "file": "DiT_uvit_tat_xlsr_ema.pth",
+    "bytes": 142112203,
+    "sha256": "c853ea578b409f625f961bcb15d5cff1f8ef9a75f3209ec21d9b7c73ab422e88",
+    "modelCardLicense": "gpl-3.0",
+    "revision": "257283f9f41585055e8f858fba4fd044e5caed6e",
+    "url": "https://huggingface.co/Plachta/Seed-VC/resolve/257283f9f41585055e8f858fba4fd044e5caed6e/DiT_uvit_tat_xlsr_ema.pth"
+  },
+  "configSha256": "e4f152f9c7b8924f82c9661cd28737204dd93368871a6feaec36437cb7138e74",
+  "changes": [
+    "Unused DAC import deferred only in converter private module; vector_quantize=False",
+    "FixedWindow LR38to67 wrapper",
+    "DiT synthetic reference16,target67,CFG0.5 wrapper",
+    "Only deterministic input_pos/t_embedder.freqs buffers reconstructed; trained parameters loaded strictly",
+    "Private estimator bool token flags made int for ONNX exporter",
+    "Remove non-computational doc_string/metadata_props in future exports"
+  ],
+  "noTargetVoiceFineTuning": true
+}
