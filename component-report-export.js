@@ -10,6 +10,15 @@ function sanitizedReport(evidence,platform,secureContext){
  const output={schema:'baitang-synthetic-probe-v1',browserReportedPlatform:['Win32','Linux x86_64','MacIntel','iPhone','iPad'].includes(platform)?platform:'other',secureContext:secureContext===true,phoneVerified:false,deviceVerification:'not-automatically-verified',capabilities,runs:[]};
  for(const run of (Array.isArray(evidence?.runs)?evidence.runs:[]).slice(0,20)){
   const row={component:['lr','dit','euler'].includes(run?.component)?run.component:'small-graph',provider:exportProvider(run?.provider)};
+  if(['gpu-compatible','gpu-strict','wasm'].includes(run?.executionPolicy))row.executionPolicy=run.executionPolicy;
+  copyBooleans(run,row,['gpuStrict','cpuFallbackAllowed','wholeSessionCpuRetry']);
+  if(run?.providerFieldMeaning==='requested')row.providerFieldMeaning='requested';
+  if(run?.nodeProviderAssignment==='not-exposed')row.nodeProviderAssignment='not-exposed';
+  if(run?.cpuFallbackActual==='not-exposed')row.cpuFallbackActual='not-exposed';
+  if(Array.isArray(run?.requestedExecutionProviders))row.requestedExecutionProviders=run.requestedExecutionProviders.slice(0,2).filter(x=>['webgpu','wasm'].includes(x));
+  if(['unknown','gpu_unavailable','cpu_assignment_rejected','unsupported_operator','artifact_unavailable','artifact_invalid','memory_allocation','shader_compilation','numeric_mismatch','session_release_failed'].includes(run?.errorCategory))row.errorCategory=run.errorCategory;
+  if(['prepare','gpu-check','fixtures','model-download','session-create','inference','validation','release'].includes(run?.failurePhase))row.failurePhase=run.failurePhase;
+  if(['Softplus','Mish','Shape','Reshape','Cast','Range','Resize','Conv','InstanceNormalization','MatMul','Gather','LayerNormalization','Add','Mul','Transpose','Unsqueeze','Concat','ReduceMax'].includes(run?.failureOperator))row.failureOperator=run.failureOperator;
   copyBooleans(run,row,['passed','automaticCpuFallback','cpuNodeFallbackDisabled','sessionCreated','sessionReleased','referencePrefixZero','webGPUAdapter','webGPUApi','secureContext','noAudioDevices','noServerInference','firstRunMayIncludeCompilation']);
   copyNumbers(run,row,['threads','modelBytes','inputSamples','outputSamples','modelFetchMs','sessionCreateMs','sessionLoadMs','operatorPairMs','inferenceSumMs','tenStepComputeAndScheduleMs','maxAbsoluteError','rmsError','benchmarkVersion','firstRunMs','warmMedianMs','warmRunCount']);
   if(Array.isArray(run?.warmRunMs))row.warmRunMs=run.warmRunMs.slice(0,5).map(exportNumber).filter(x=>x!==undefined);
