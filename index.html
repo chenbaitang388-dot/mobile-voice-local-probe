@@ -3,13 +3,13 @@
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; connect-src 'self'; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'">
 <meta name="theme-color" content="#95617e"><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
 <title>白棠 · iPhone 本地计算测试</title><link rel="stylesheet" href="style.css"></head><body>
-<main><p class="eyebrow">手机自己计算 · 不录音</p><h1>先测一下手机的计算能力</h1>
+<main><p class="eyebrow">手机自己计算 · 不录音 · 测试 v2</p><h1>先测一下手机的计算能力</h1>
 <p>这里只运行程序生成的合成数据，不需要麦克风、不播放声音，也没有声音上传功能。<strong>这还不是完整变声器。</strong></p>
 <p class="note">首次打开会从网站下载约 22 MB 的程序，托管服务可能记录普通访问日志。没有统计脚本或第三方推理服务。无需安装根证书，电脑不参与计算。</p>
 <section><h2>1. 检查手机</h2><pre id="caps">点击“检查浏览器”，再测试 GPU。若 GPU 不可用，可用 WASM 检查基础兼容性。</pre></section>
 <div class="actions"><button id="inspect">检查浏览器</button><button id="gpu">测试 GPU 小模型</button><button id="wasm">测试 WASM 小模型</button></div>
-<section aria-live="polite"><h2>计算结果</h2><pre id="result">尚未运行。第一次测试需要加载运行库；GPU 失败时不会偷偷切换成 CPU。</pre></section>
-<div class="actions"><button id="copy-report">复制检查结果</button><button id="show-report">显示可复制文本</button></div><p id="copy-status" aria-live="polite"></p><textarea id="report-text" readonly hidden aria-label="测试结果文本"></textarea>
+<section aria-live="polite"><h2>计算结果</h2><p class="note">同一模型会先运行一次，再连续运行五次。首次可能包含编译开销，后五次显示稳定运行参考；仍不是完整变声速度。</p><pre id="result">尚未运行。第一次测试需要加载运行库；GPU 失败时不会偷偷切换成 CPU。</pre></section>
+<div class="actions"><button id="copy-report">复制检查结果</button><button id="show-report">显示可复制文本</button></div><p id="copy-status" aria-live="polite"></p><p class="note">导出的 phoneVerified:false 表示网页不能自动认证你的设备身份，不表示手机测试失败；平台信息由浏览器自报。</p><textarea id="report-text" readonly hidden aria-label="测试结果文本"></textarea>
 <section><h2>2. 试试离线重新打开</h2><p>点击保存后，等待所有文件缓存成功。再开启飞行模式，关闭并重新打开本页，重做一次小模型测试。也可以在 Safari 分享菜单中选择“添加到主屏幕”。</p>
 <div class="actions"><button id="save-offline">保存离线测试</button><button id="check-offline">检查离线文件</button></div><p id="offline-status" aria-live="polite">尚未检查离线文件。浏览器可能清理缓存；“已保存”不等于永久保存。</p></section>
 <p class="note">测试通过仅证明这些小模型能运行，不代表完整白棠音色、持续实时性能或整套变声器已通过。离线结果也需要在你的 iPhone 上实际验证。</p>

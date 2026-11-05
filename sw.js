@@ -1,5 +1,5 @@
 /* Only this app's public, fixed file set. No uploads or background sync. */
-const CACHE='baitang-public-probe-v1:'+self.registration.scope;
+const CACHE='baitang-public-probe-v2:'+self.registration.scope;
 const FILES=['./','./index.html','./style.css','./probe.js','./session-factory.js','./report-export.js','./offline.js','./manifest.webmanifest','./icon.svg','./PRIVACY.txt','./THIRD_PARTY_NOTICES.txt','./runtime-manifest.json','./vendor/ort.webgpu.min.js','./vendor/ort-wasm-simd-threaded.jsep.mjs','./vendor/ort-wasm-simd-threaded.jsep.wasm','./vendor/LICENSE','./models/candidate_real_stft.onnx','./models/candidate_real_istft.onnx','./RVC-LICENSE','./SEED-LICENSE','./source/generate_spectral_models.py','./source/README.txt','./licenses/Apache-2.0.txt','./licenses/ORT-ThirdPartyNotices.txt'];
 const URLS=FILES.map(file=>new URL(file,self.registration.scope).href);
 self.addEventListener('install',event=>event.waitUntil(self.skipWaiting()));

@@ -7,11 +7,13 @@ function exportProvider(value){return ['wasm','webgpu'].includes(value)?value:'u
 function exportMetrics(source){const output={};copyNumbers(source,output,['maxAbsoluteError','rmsError']);copyBooleans(source,output,['finite']);return output}
 function sanitizedReport(evidence,platform,secureContext){
  const capabilities={};copyBooleans(evidence?.capabilities,capabilities,['secureContext','webAssembly','webGPU','audioWorklet','crossOriginIsolated','webGPUAdapter']);
- const output={schema:'baitang-synthetic-probe-v1',browserReportedPlatform:['Win32','Linux x86_64','MacIntel','iPhone','iPad'].includes(platform)?platform:'other',secureContext:secureContext===true,phoneVerified:false,capabilities,runs:[]};
+ const output={schema:'baitang-synthetic-probe-v1',browserReportedPlatform:['Win32','Linux x86_64','MacIntel','iPhone','iPad'].includes(platform)?platform:'other',secureContext:secureContext===true,phoneVerified:false,deviceVerification:'not-automatically-verified',capabilities,runs:[]};
  for(const run of (Array.isArray(evidence?.runs)?evidence.runs:[]).slice(0,20)){
   const row={component:['lr','dit','euler'].includes(run?.component)?run.component:'small-graph',provider:exportProvider(run?.provider)};
-  copyBooleans(run,row,['passed','automaticCpuFallback','cpuNodeFallbackDisabled','sessionCreated','sessionReleased','referencePrefixZero','webGPUAdapter','webGPUApi','secureContext','noAudioDevices','noServerInference']);
-  copyNumbers(run,row,['threads','modelBytes','inputSamples','outputSamples','modelFetchMs','sessionCreateMs','sessionLoadMs','operatorPairMs','inferenceSumMs','tenStepComputeAndScheduleMs','maxAbsoluteError','rmsError']);
+  copyBooleans(run,row,['passed','automaticCpuFallback','cpuNodeFallbackDisabled','sessionCreated','sessionReleased','referencePrefixZero','webGPUAdapter','webGPUApi','secureContext','noAudioDevices','noServerInference','firstRunMayIncludeCompilation']);
+  copyNumbers(run,row,['threads','modelBytes','inputSamples','outputSamples','modelFetchMs','sessionCreateMs','sessionLoadMs','operatorPairMs','inferenceSumMs','tenStepComputeAndScheduleMs','maxAbsoluteError','rmsError','benchmarkVersion','firstRunMs','warmMedianMs','warmRunCount']);
+  if(Array.isArray(run?.warmRunMs))row.warmRunMs=run.warmRunMs.slice(0,5).map(exportNumber).filter(x=>x!==undefined);
+  if(Array.isArray(run?.warmChecks))row.warmChecks=run.warmChecks.slice(0,5).map(check=>{const item=exportMetrics(check);copyBooleans(check,item,['passed']);return item});
   if(run?.requestedProvider!==undefined)row.requestedProvider=exportProvider(run.requestedProvider);
   if(run?.createdBackend!==undefined)row.createdBackend=exportProvider(run.createdBackend);
   if(Array.isArray(run?.createdSessionBackends))row.createdSessionBackends=run.createdSessionBackends.slice(0,2).map(exportProvider);
