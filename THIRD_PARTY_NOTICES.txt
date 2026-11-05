@@ -1,0 +1,52 @@
+PUBLIC SYNTHETIC BROWSER COMPATIBILITY PROBE
+
+This package is a small browser compatibility test, not a voice converter.
+The two ONNX files contain fixed mathematical Fourier/Hann kernels. They do
+not contain learned speaker weights, recordings, a person's voice reference,
+or private speaker embeddings. All input waveforms are generated in the page.
+
+1. ONNX Runtime Web 1.22.0
+   Upstream: https://github.com/microsoft/onnxruntime/tree/v1.22.0
+   Distributed files: vendor/ort.webgpu.min.js and the matching JSEP .mjs/.wasm.
+   Copyright (c) Microsoft Corporation. Licensed under the MIT License.
+   The exact upstream MIT text is in vendor/LICENSE.
+   The complete upstream release third-party notices are preserved at
+   licenses/ORT-ThirdPartyNotices.txt. That document covers the upstream project;
+   its presence does not assert that every listed native component is in this
+   browser-only build. Runtime binaries are redistributed unmodified.
+
+2. RVC Web Runtime session factory adaptation
+   Upstream: https://github.com/moyue23/rvc-web-runtime
+   Commit: bed1e46d1a4e0ba8a47dd13975a467e5e8c88d62
+   Source path: packages/engine/src/model/sessionFactory.ts
+   Copyright (c) 2026 真白. MIT License: RVC-LICENSE.
+   The distributed session-factory.js is the complete readable modified source.
+   Modifications remove TypeScript types and the upstream error dependency and
+   allow the caller to select a single backend. No upstream service, CDN loader,
+   audio conversion loop, trained model, or upload code is included.
+
+3. Synthetic real-valued STFT/ISTFT operator graphs
+   Full editable source and export instructions:
+   source/generate_spectral_models.py and source/README.txt.
+   These are mathematical real-convolution replacements written for this probe.
+   The fixed parameters are n_fft=16, hop=4, centered periodic Hann window.
+   During development they were compared with the spectral methods in
+   https://github.com/Plachtaa/seed-vc/blob/main/modules/hifigan/generator.py
+   That source file carries this specific notice:
+   Copyright (c) 2024 Alibaba Inc (authors: Xiang Lyu, Kai Hu).
+   Licensed under the Apache License, Version 2.0.
+   The Apache-2.0 text is retained at licenses/Apache-2.0.txt, and the changed
+   real-arithmetic implementation is provided in full in the source directory.
+   No HiFT trained checkpoint or the larger Seed-VC inference program is shipped.
+   Seed-VC's repository-level GPLv3 license is additionally preserved in
+   SEED-LICENSE as upstream provenance; it does not replace the file-specific
+   Apache notice or the individual MIT licenses listed above.
+
+All of the public page's own HTML, CSS, and JavaScript are shipped in readable
+source form. A license text alone is not being used in place of source for the
+modified session factory or the two generated operator graphs.
+
+The test intentionally does not request microphone or camera access and does
+not send test results or audio to a server. Fetching static files still contacts
+the chosen hosting service, which may record ordinary connection metadata.
+An optional local result copy is initiated only by the user's button click.
