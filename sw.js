@@ -30,6 +30,8 @@ self.addEventListener('fetch',event=>{
  if(url.origin!==self.location.origin){event.respondWith(Promise.resolve(new Response('External request disabled',{status:403})));return}
  if(!clean.startsWith(self.registration.scope))return;
  if(event.request.method!=='GET'){event.respondWith(Promise.resolve(new Response('Read only',{status:405})));return}
+ // The iPhone app has a separate worker and cache under its own scope.
+ if(clean.startsWith(new URL('./iphone/',self.registration.scope).href))return;
  if(ONLINE_URLS.includes(clean)){event.respondWith(fetch(event.request));return}
  if(!URLS.includes(clean)){event.respondWith(Promise.resolve(new Response('Not in offline file list',{status:404})));return}
  event.respondWith((async()=>{

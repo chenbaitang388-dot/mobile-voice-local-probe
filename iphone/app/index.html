@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob:; media-src 'self' blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; worker-src 'self'">
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="light dark">
+<title>本地变声 · 第一项</title>
+<link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<main>
+  <p class="eyebrow">手机本地变声 · 第一项</p>
+  <h1>本地音频与变声入口</h1>
+  <p class="lede">
+    这一版已经把本机随包的 ONNX Runtime Web 与固定窗口推理链路接进页面：音频输入、解码、
+    单声道处理、WAV 导出都在本机内存里完成。
+    <strong>但页面本身不含五个模型权重，也不含参考音色包</strong>——这两样要你自己在本机选择；
+    没有它们时「开始变声」保持禁用，页面不会给你假的变声结果。
+  </p>
+  <p class="note">
+    音频只在本机内存里：不上传、不写本地存储，页面自身不联网。所有播放和录音都要你自己点。
+    若本机没有随包运行时，页面会显示「完整本地推理引擎尚未接入」并禁用变声。
+  </p>
+  <p class="note" data-fixed-window-copy>
+    当前限制：一次只处理一个固定窗口（约 2.78 秒输入 → 约 0.26 秒片段），不是整句转换、不是实时；
+    整句多块拼接尚未开放；桌面浏览器与 Node 已跑通链路，但<strong>尚未在 iPhone Safari 真机验证</strong>
+    内存、耗时、发热与音质。本页不提供「默认音色」，参考包属于私人数据。
+  </p>
+  <p id="whole-experiment" class="note" hidden></p>
+  <section id="mobile-offline" hidden>
+    <h2>保存离线页面</h2>
+    <p class="note">首次联网时保存页面和运行库。将五个模型和私人参考包放进「我的 iPhone」，以便飞行模式下导入。减重模型组合约 383 MB。</p>
+    <button id="offline-install" type="button">保存离线页面</button>
+    <p id="offline-status" class="status" aria-live="polite">尚未确认离线页面已保存。</p>
+  </section>
+  <noscript><p class="warn">这个页面需要 JavaScript 才能在本机处理音频。</p></noscript>
+
+  <section>
+    <h2>1. 选择文件或录音</h2>
+    <div class="actions">
+      <label class="btn" for="file-input">选择本地音频</label>
+      <input id="file-input" class="visually-hidden" type="file" accept="audio/*,.wav,.mp3,.m4a,.aac,.ogg,.flac,.caf">
+    </div>
+    <div class="actions">
+      <button id="record-start" type="button">开始录音</button>
+      <button id="record-stop" type="button" disabled>停止录音</button>
+      <button id="record-cancel" type="button" disabled>取消录音</button>
+    </div>
+    <p id="record-status" class="status" aria-live="polite">尚未录音。只有点「开始录音」并允许麦克风后才会录音。</p>
+    <p id="input-status" class="status" aria-live="polite">尚未选择音频。</p>
+    <pre id="input-info" class="info" hidden></pre>
+    <p id="record-limit" class="note">录音上限 30 秒，文件上限 24 MB。停止、取消、拒绝权限、离开页面都会关掉麦克风。</p>
+  </section>
+
+  <section>
+    <h2>2. 输入试听与下载</h2>
+    <p class="note">下面是解码后的单声道 WAV，也就是真正会送进变声的音频。</p>
+    <audio id="input-audio" controls preload="none" aria-label="输入试听（解码后的单声道 WAV）" hidden></audio>
+    <div class="actions">
+      <a id="input-wav" class="btn ghost" download="input-mono.wav" hidden>下载输入 WAV</a>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. 模型与参考文件（可选）</h2>
+    <div class="actions">
+      <label class="btn ghost" for="model-input">选择模型文件</label>
+      <input id="model-input" class="visually-hidden" type="file" multiple accept=".onnx">
+    </div>
+    <div class="actions">
+      <label class="btn ghost" for="reference-input">选择参考音色包（JSON）</label>
+      <input id="reference-input" class="visually-hidden" type="file" accept=".json,application/json">
+    </div>
+    <pre id="files-info" class="info">模型文件：未选择
+参考文件：未选择</pre>
+    <p class="note">
+      需要五个 .onnx 模型（合计约 0.8 GB）和一个 <code>seed-reference/v1</code> JSON 参考包，
+      两者都由你在本机选择。公开发布包不附带这些文件，页面也不会下载、上传或缓存它们。
+      参考包是音色特征，不是音频文件；本页不提供「示例音色」或默认音色。
+    </p>
+    <p class="note">
+      这里只记住文件名和大小，文件内容留在内存里。本页不读取你没选的文件，
+      也不会声称已经识别模型格式或完成音色转换；手机内存是否够用尚未实测。
+    </p>
+  </section>
+
+  <section>
+    <h2>4. 变声</h2>
+    <pre id="engine-status" class="info">本地推理：正在检测本机运行时…（实际状态由脚本更新）</pre>
+    <p id="memory-note" class="note"></p>
+    <p id="window-note" class="note" hidden></p>
+    <div class="actions">
+      <button id="engine-prepare" type="button" disabled>准备本地引擎</button>
+      <button id="use-excerpt" type="button" class="ghost" hidden>使用开头 2.78 秒</button>
+      <button id="convert-start" type="button" disabled>开始变声</button>
+      <button id="convert-cancel" type="button" disabled>取消变声</button>
+    </div>
+    <div id="progress" hidden>
+      <p id="progress-label" class="status" aria-live="polite">正在本地推理…</p>
+      <progress id="progress-bar" max="100" value="0"></progress>
+    </div>
+    <p id="convert-status" class="status" aria-live="polite">尚未运行。请先选择五个模型与 seed-reference/v1 参考包，再点「准备本地引擎」；准备成功且输入是固定窗口后，这个按钮才会启用。</p>
+    <p class="note" data-fixed-window-copy>
+      这一版只处理一个固定窗口：16 kHz、44,480 个采样（约 2.78 秒），输出 22.05 kHz 的 5,733 个采样，
+      听感上大约是 <strong>0.26 秒</strong>的片段——不是整句转换，也不是实时。
+      音频会先重采样到 16 kHz（保留时长，不裁剪）；比窗口长的音频必须由你点上面的按钮明确截取，
+      程序不会自动裁，也不会补零。
+    </p>
+  </section>
+
+  <section>
+    <h2>5. 变声结果</h2>
+    <div id="output-section" hidden>
+      <p class="note">这是本机生成的结果，和上面的输入试听是两回事。</p>
+      <audio id="output-audio" controls preload="none" aria-label="变声结果试听（本机生成）"></audio>
+      <div class="actions">
+        <a id="output-wav" class="btn ghost" download="converted-mono.wav" hidden>下载结果 WAV</a>
+      </div>
+    </div>
+    <p id="output-empty" class="note">还没有结果。准备好模型与参考包并完成一次转换后，结果会出现在这里。固定窗口的合成测试输出接近静音，不能据此判断实际音质。</p>
+  </section>
+
+  <section>
+    <h2>提示</h2>
+    <div id="messages" class="messages" role="status" aria-live="polite"></div>
+    <div class="actions">
+      <button id="reset-all" type="button" class="ghost">清除全部（关闭麦克风并释放内存）</button>
+    </div>
+  </section>
+
+  <footer>
+    <p class="note">
+      本页没有广告、统计、第三方脚本或远程日志；不连接任何服务器，也不连接电脑上的推理服务。
+      发布包使用严格白名单，不含模型权重、真实音频、参考特征、测试与证据文件。
+    </p>
+  </footer>
+</main>
+<!-- 本地随包的 ONNX Runtime Web（同源，无 CDN）；没有它时页面自动退回「未接入」实现。 -->
+<script src="../vendor/ort.webgpu.min.js"></script>
+<script type="module" src="./js/main.js"></script>
+</body>
+</html>

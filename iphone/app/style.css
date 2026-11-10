@@ -1,0 +1,88 @@
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0;
+  padding:22px 16px 44px;
+  background:radial-gradient(120% 60% at 50% 0%,#f3eef9 0%,#eee8f4 45%,#e9e4f1 100%);
+  color:#3c3550;
+  font:16px/1.68 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,sans-serif;
+}
+main{
+  max-width:720px;
+  margin:0 auto;
+  background:#fffdfb;
+  border:1px solid #e4dcef;
+  border-radius:22px;
+  padding:26px 22px 30px;
+  box-shadow:0 18px 44px rgba(70,52,104,.08);
+}
+.eyebrow{margin:0 0 6px;color:#8b6ba8;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase}
+h1{margin:0 0 14px;font-size:clamp(23px,6.4vw,31px);line-height:1.28;letter-spacing:-.01em}
+h2{margin:0 0 12px;font-size:17px;letter-spacing:.01em;color:#4a3f63}
+p{margin:0 0 12px}
+.lede{color:#4a4160}
+.note{font-size:13px;line-height:1.72;color:#7b7191}
+.warn{font-size:14px;color:#a8483f}
+section{border-top:1px solid #eee6f6;margin-top:24px;padding-top:22px}
+section:first-of-type{border-top:0;margin-top:18px;padding-top:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+#progress{margin:4px 0 12px}
+#progress-bar{
+  width:100%;height:12px;border:0;border-radius:999px;overflow:hidden;
+  background:#ece5f5;appearance:none;-webkit-appearance:none;
+}
+#progress-bar::-webkit-progress-bar{background:#ece5f5;border-radius:999px}
+#progress-bar::-webkit-progress-value{background:linear-gradient(90deg,#8b6ba8,#b79ce0);border-radius:999px}
+#progress-bar::-moz-progress-bar{background:#9a7cc0;border-radius:999px}
+#memory-note:empty,#window-note:empty{display:none}
+button,.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:46px;padding:12px 18px;border:1px solid transparent;border-radius:13px;
+  background:#6f55a8;color:#fff;font:inherit;font-size:15.5px;font-weight:600;
+  text-decoration:none;cursor:pointer;
+  transition:background .16s ease,opacity .16s ease,transform .06s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+button:hover:not(:disabled),.btn:hover{background:#5d4590}
+button:active:not(:disabled),.btn:active{transform:translateY(1px)}
+button:disabled{background:#cfc6dc;color:#f6f2fa;cursor:not-allowed;opacity:.85}
+.ghost{background:#f4effa;color:#5a447f;border-color:#e0d4f0}
+.ghost:hover:not(:disabled){background:#ebe2f8}
+button:focus-visible,.btn:focus-visible,audio:focus-visible{outline:3px solid #b79ce0;outline-offset:2px}
+.visually-hidden{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.status{font-size:14px;color:#5b5075;margin:10px 0 6px}
+.info{
+  margin:12px 0;padding:14px 15px;border-radius:13px;background:#f6f2fb;border:1px solid #e9e0f4;
+  white-space:pre-wrap;overflow-wrap:anywhere;
+  font:13px/1.75 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#4a4160;
+}
+.messages{
+  min-height:22px;margin:0 0 12px;padding:12px 14px;border-radius:13px;
+  background:#f6f2fb;border:1px solid #e9e0f4;white-space:pre-wrap;overflow-wrap:anywhere;
+  font-size:13.5px;line-height:1.75;color:#5b5075;
+}
+.messages:empty{display:none}
+audio{width:100%;margin:10px 0 4px;display:block}
+code{font:inherit;font-size:.92em;padding:1px 5px;border-radius:6px;background:#efe8f8;color:#5a447f;overflow-wrap:anywhere}
+footer{border-top:1px solid #eee6f6;margin-top:26px;padding-top:18px}
+footer p:last-child{margin-bottom:0}
+@media (max-width:430px){
+  body{padding:12px 10px 32px}
+  main{padding:20px 15px 24px;border-radius:18px}
+  .actions{gap:8px}
+  .actions > button,.actions > .btn{flex:1 1 100%}
+}
+@media (prefers-color-scheme:dark){
+  body{background:#171422;color:#e7e1f2}
+  main{background:#211d2e;border-color:#322b45;box-shadow:none}
+  h1,h2{color:#efe9fa}
+  .lede{color:#d6cfe6}
+  .note,.status{color:#a79cb8}
+  .info,.messages{background:#2a2438;border-color:#3a3250;color:#d9d2e8}
+  code{background:#332b45;color:#d9c9f2}
+  section,footer{border-color:#322b45}
+  .ghost{background:#2a2438;border-color:#3a3250;color:#d9c9f2}
+  .ghost:hover:not(:disabled){background:#332b45}
+  button:disabled{background:#3a3250;color:#7b7191}
+  .eyebrow{color:#b79ce0}
+}

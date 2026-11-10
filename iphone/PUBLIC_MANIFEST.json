@@ -1,0 +1,193 @@
+{
+  "schema": "dsh-voice-stage1-release/v1",
+  "note": "只含公开前端与本地推理运行时；不含任何模型权重、参考音色或用户数据。缺少五个模型与 seed-reference/v1 参考包时，页面不是可用的变声器。",
+  "entry": "app/index.html",
+  "layout": {
+    "offline-worker.js": "可选离线前端工作线程",
+    "app/": "页面与 ES 模块",
+    "vendor/": "ONNX Runtime Web 1.22.0（同源加载，附 MIT 许可及上游第三方声明）"
+  },
+  "notIncluded": [
+    "resources/models（五个 .onnx 权重）",
+    "reference/ 与 seed-reference/v1 参考音色包（私人特征，不提供默认音色）",
+    "tests/、tools/、docs/ 与浏览器证据 JSON",
+    "acl-recovery/ 与任何真实音频"
+  ],
+  "runtime": {
+    "name": "onnxruntime-web",
+    "version": "1.22.0"
+  },
+  "files": [
+    {
+      "path": "app/index.html",
+      "bytes": 8169,
+      "sha256": "94b5ecd9099bfb67dcc50b3750b4fdcea867deb6766c30926069a3503c4cfc82"
+    },
+    {
+      "path": "app/js/config.js",
+      "bytes": 2286,
+      "sha256": "4e75b78f4661378e499d4f86e242443b19e94064f1a1430e77bd2ad500e45602"
+    },
+    {
+      "path": "app/js/controller.js",
+      "bytes": 33579,
+      "sha256": "5d4584d7a8367ac15999aa5aef384048286c40e47a19bc5d6fcb090366a434c8"
+    },
+    {
+      "path": "app/js/decode.js",
+      "bytes": 5254,
+      "sha256": "4a93dabd2d22fd5f707a7984cc27b1772f6bcc29feab1028cb3bff0ab84bb683"
+    },
+    {
+      "path": "app/js/engine/adapter.js",
+      "bytes": 6252,
+      "sha256": "7d59975b79fb6409315c4f6bc57aeb1f802b56d1a67e119c00631f87d383de15"
+    },
+    {
+      "path": "app/js/engine/blocks.js",
+      "bytes": 16103,
+      "sha256": "86e32689885eea4c0aef687b12e5a30ede9e11e717c6d4f2727022905a1b39cd"
+    },
+    {
+      "path": "app/js/engine/contract.js",
+      "bytes": 8357,
+      "sha256": "f82f02f3d8b96709a94ba93ecce279062b9cc11caae64251f8113b420c490dec"
+    },
+    {
+      "path": "app/js/engine/missing-engine.js",
+      "bytes": 1345,
+      "sha256": "9d1a0f708b31f6dbd5843df8743d3a70fea76ae17ed150485f1319e460241eaf"
+    },
+    {
+      "path": "app/js/engine/random.js",
+      "bytes": 4052,
+      "sha256": "13e2c777d01aa6b9e8608a0e3fd80eedbdb0960e2a51c5ac92a893c967387ab5"
+    },
+    {
+      "path": "app/js/engine/reference.js",
+      "bytes": 4598,
+      "sha256": "ec11659ae66107ab56fc7ef31a34cab11d0dd4b906e8cc26126fef6163ffee57"
+    },
+    {
+      "path": "app/js/engine/roles.js",
+      "bytes": 2761,
+      "sha256": "69ebdc4fd2a454eb638a3edaf9b4185d76331f15faed35018e43019b12d3a7fd"
+    },
+    {
+      "path": "app/js/engine/seed-chain.js",
+      "bytes": 9774,
+      "sha256": "3912c301567a1ad86fd53f4b21af319d80f6515bf70c3142955c310e344e6989"
+    },
+    {
+      "path": "app/js/engine/seed-engine.js",
+      "bytes": 10716,
+      "sha256": "e8ace63476546b6953d8365a29b611f32740d28d929d55f52c8117e1c061c504"
+    },
+    {
+      "path": "app/js/engine/session-factory.js",
+      "bytes": 1971,
+      "sha256": "fcf51d7b6e30a6872011c7aeaaf571b2e887a70ed60d2f3a20895f1cb06687bf"
+    },
+    {
+      "path": "app/js/engine/solver.js",
+      "bytes": 2485,
+      "sha256": "85bbd188161a67e48086a40fe477b75fa0452012a62ffe1fac2c6d07fafc6b7c"
+    },
+    {
+      "path": "app/js/engine/tensors.js",
+      "bytes": 4607,
+      "sha256": "f3d23245db3cf6f9aa3119799ceb5501a98ad8269a43473128d47e668f14b91e"
+    },
+    {
+      "path": "app/js/engine/timegrid.js",
+      "bytes": 1152,
+      "sha256": "24600cff2ad6403a9b3b593a339875db56fffe9c6ad277590ec0a487ee867c5e"
+    },
+    {
+      "path": "app/js/format.js",
+      "bytes": 1454,
+      "sha256": "46cfb1b7f92537706f4735c8dbc4e28be3790941a5a24b2f6618306f13dd140c"
+    },
+    {
+      "path": "app/js/limits.js",
+      "bytes": 4796,
+      "sha256": "5e821feaccca39cedb3f0dd4d8eb5a76f9b516fbdc246e027544a27aff46b89c"
+    },
+    {
+      "path": "app/js/main.js",
+      "bytes": 10397,
+      "sha256": "4509c1943ef00ab5c8dbc48bb7926ebfd1c3d3a58c8be69e5efa881bc128363c"
+    },
+    {
+      "path": "app/js/object-url.js",
+      "bytes": 1429,
+      "sha256": "bfd08a6b6ceee58e9731ce7b68c38a9e96db6255eac4c5992af7541b399a3943"
+    },
+    {
+      "path": "app/js/offline.js",
+      "bytes": 2434,
+      "sha256": "a2db72f78d5bf36c1f3b41a7ec3c1d491c8580becfa4cac722667e9cd4e0d4f1"
+    },
+    {
+      "path": "app/js/pcm.js",
+      "bytes": 2157,
+      "sha256": "584aad1acafc6fb02960908bcb563a00d13c32da70444bd6a47ae3d74f6a1037"
+    },
+    {
+      "path": "app/js/recorder.js",
+      "bytes": 15848,
+      "sha256": "6a23bf3a7107f1b6347a51c97320c54ffbb0f55f5e29aca2e535f78ee57447ab"
+    },
+    {
+      "path": "app/js/resample.js",
+      "bytes": 2650,
+      "sha256": "3c50e6d1a140d86449c0d6ce6336c6d98b2e2ca7f180ab9f135ae95cee9bddee"
+    },
+    {
+      "path": "app/js/ui.js",
+      "bytes": 11960,
+      "sha256": "8d68e9d8c7f1291d6457c4777a4b03b98ba23ed82a0052cf0835bb6f9028a676"
+    },
+    {
+      "path": "app/js/wav.js",
+      "bytes": 5316,
+      "sha256": "34323230fc1fd60462be29d0602b93ea18af186b3e8aba2e96b6c3e0c99ca1d3"
+    },
+    {
+      "path": "app/style.css",
+      "bytes": 4145,
+      "sha256": "e6c79ccfaf8c2be19af7bbdcdfee35558c013a908a81c072066a411c2e9116ce"
+    },
+    {
+      "path": "offline-worker.js",
+      "bytes": 3482,
+      "sha256": "fc1372bc8597a898201b5c6d46bd1474f31a3bfcdd0097938368c01a9dd9ee58"
+    },
+    {
+      "path": "vendor/LICENSE",
+      "bytes": 1073,
+      "sha256": "2f07c72751aed99790b8a4869cf2311df85a860b22ded05fa22803587a48922c"
+    },
+    {
+      "path": "vendor/ort-wasm-simd-threaded.jsep.mjs",
+      "bytes": 44677,
+      "sha256": "1cbcba8f2c769c1eecbab66a1b1e55ef11704515bf4306373e3db3c37cf6dcd8"
+    },
+    {
+      "path": "vendor/ort-wasm-simd-threaded.jsep.wasm",
+      "bytes": 21872216,
+      "sha256": "b45970d0632383a057c27ca5b660b216f8e00c17cf8db9f6207b5e4abc839368"
+    },
+    {
+      "path": "vendor/ort.webgpu.min.js",
+      "bytes": 357648,
+      "sha256": "4dec2f5e74de2ec0f496d39ef55ec23762e8c6ca58cb958e691c9f2350a7b1c8"
+    },
+    {
+      "path": "vendor/ThirdPartyNotices.txt",
+      "bytes": 326866,
+      "sha256": "e9e90971a8e75a9a8ac0c6412e29c1202d079998389915aa485f46c816c3b4cc"
+    }
+  ],
+  "totalBytes": 22792009
+}
